@@ -37,7 +37,7 @@ class ClienteHelper {
     return openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $tabelaCliente(id INTEGER PRIMARY KEY, nome TEXT, whatsapp TEXT, curso TEXT, fase TEXT, email TEXT)");
+          "CREATE TABLE $tabelaCliente(id INTEGER PRIMARY KEY, $nome TEXT, $whatsapp TEXT, $curso TEXT, $fase TEXT, $curso TEXT)");
     });
   }
 
@@ -69,8 +69,10 @@ class ClienteHelper {
         .delete(tabelaCliente, where: "$idCliente=?", whereArgs: [idCliente]);
   }
 
-  Future<int> atualizarCliente(Cliente Cliente) async {
-    //
+  Future<int> atualizarCliente(Cliente cliente) async {
+    Database dbCliente = await db;
+    return await dbCliente.update(tabelaCliente, cliente.toMap(),
+        where: "$idCliente = ?", whereArgs: [cliente.id]);
   }
 
   Future<List> todosOsClientes() async {
