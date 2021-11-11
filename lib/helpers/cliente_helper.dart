@@ -9,6 +9,7 @@ final String whatsapp = "whatsapp";
 final String curso = "curso";
 final String fase = "fase";
 final String email = "email";
+final String imagem = "imagem";
 final String tabelaCliente = "tabelaCliente";
 
 class ClienteHelper {
@@ -37,7 +38,7 @@ class ClienteHelper {
     return openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $tabelaCliente(id INTEGER PRIMARY KEY, $nome TEXT, $whatsapp TEXT, $curso TEXT, $fase TEXT, $curso TEXT)");
+          "CREATE TABLE $tabelaCliente(id INTEGER PRIMARY KEY, $nome TEXT, $whatsapp TEXT, $curso TEXT, $fase TEXT, $curso TEXT, $imagem TEXT)");
     });
   }
 
@@ -52,7 +53,7 @@ class ClienteHelper {
     Database dbCliente = await db;
 
     List<Map> maps = await dbCliente.query(tabelaCliente,
-        columns: [idCliente, nome, whatsapp, curso, fase, email],
+        columns: [idCliente, nome, whatsapp, curso, fase, email, imagem],
         where: "$id = ?",
         whereArgs: [id]);
 
@@ -106,6 +107,7 @@ class Cliente {
   String curso;
   String fase;
   String email;
+  String imagem;
 
   Cliente();
 
@@ -116,6 +118,7 @@ class Cliente {
     curso = map[curso];
     fase = map[fase];
     email = map[email];
+    imagem = map[imagem];
   }
 
   Map toMap() {
@@ -125,6 +128,7 @@ class Cliente {
       curso: curso,
       fase: fase,
       email: email,
+      imagem: imagem,
     };
 
     if (id != null) {
@@ -136,6 +140,6 @@ class Cliente {
 
   @override
   String toString() {
-    return "Cliente (id: $id, nome: $nome, whatsapp: $whatsapp, curso: $curso, fase: $fase, email : $email)";
+    return "Cliente (id: $id, nome: $nome, whatsapp: $whatsapp, curso: $curso, fase: $fase, email : $email, imagem : $imagem)";
   }
 }
