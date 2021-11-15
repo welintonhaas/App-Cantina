@@ -16,8 +16,46 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  Widget LoginPage() {
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Página de Login",
+              style: TextStyle(fontSize: 20),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget CadastroPage() {
+    return Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "Cadastro",
+              style: TextStyle(fontSize: 20),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildImageRow() => Expanded(
-        flex: 8,
+        flex: 3,
         child: Container(
           alignment: Alignment.center,
           child: Image.asset(
@@ -31,43 +69,41 @@ class _HomePageState extends State<HomePage> {
 
   Widget _createTab(String text) {
     return Tab(
-      child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      child: Row(children: [
         Expanded(
             child: Container(
-                child: Center(child: Text(text)),
-                decoration: BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.black))))),
+          child: Center(child: Text(text)),
+        )),
       ]),
     );
   }
 
   Widget _buildTextRow() => Expanded(
-        flex: 2,
-        child: Container(
-          width: 250,
-          margin: const EdgeInsets.only(top: 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Login',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+        flex: 7,
+        child: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              flexibleSpace: Container(
+                margin: EdgeInsets.only(top: 10),
+                child: TabBar(
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  tabs: [
+                    _createTab('Login'),
+                    _createTab('Cadastro'),
+                  ],
                 ),
               ),
-              Text(
-                'Cadastro',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ],
+            ),
+            body: TabBarView(
+              children: [
+                LoginPage(),
+                CadastroPage(),
+              ],
+            ),
           ),
         ),
       );
@@ -120,7 +156,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
           padding: EdgeInsets.only(top: 50),
-          height: MediaQuery.of(context).size.height / 2,
+          height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: color,
@@ -129,7 +165,6 @@ class _HomePageState extends State<HomePage> {
                 bottomRight: Radius.circular(30.0)),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _buildImageRow(),
               _buildTextRow(),
