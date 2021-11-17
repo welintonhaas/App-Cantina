@@ -18,16 +18,41 @@ class _HomePageState extends State<HomePage> {
 
   Widget LoginPage() {
     return Container(
+      padding: new EdgeInsets.all(50.0),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              "Página de Login",
-              style: TextStyle(fontSize: 20),
+            TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'E-mail',
+              ),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor preencha seu e-mail';
+                }
+                return null;
+              },
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 20),
+            Divider(),
+            TextFormField(
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Senha',
+              ),
+              validator: (String value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor preencha a senha';
+                }
+                return null;
+              },
+            ),
+            Divider(),
+            RaisedButton(
+              child: Text('Logar'),
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
             ),
           ],
         ),
@@ -72,7 +97,9 @@ class _HomePageState extends State<HomePage> {
       child: Row(children: [
         Expanded(
             child: Container(
-          child: Center(child: Text(text)),
+          child: Center(
+              child: Text(text,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
         )),
       ]),
     );
@@ -84,6 +111,11 @@ class _HomePageState extends State<HomePage> {
           length: 2,
           child: Scaffold(
             appBar: AppBar(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(30),
+                ),
+              ),
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               flexibleSpace: Container(
@@ -91,6 +123,15 @@ class _HomePageState extends State<HomePage> {
                 child: TabBar(
                   labelColor: Colors.black,
                   unselectedLabelColor: Colors.grey,
+                  padding: EdgeInsets.only(top: 22, right: 50, left: 50),
+                  indicator: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.red,
+                        width: 3,
+                      ),
+                    ),
+                  ),
                   tabs: [
                     _createTab('Login'),
                     _createTab('Cadastro'),
@@ -111,7 +152,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     const color = Colors.white;
-
     return Scaffold(
       bottomSheet: Container(
         height: 50,
