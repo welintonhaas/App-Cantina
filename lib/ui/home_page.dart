@@ -17,45 +17,72 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget LoginPage() {
-    return Container(
-      padding: new EdgeInsets.all(50.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'E-mail',
+    const primaryColor = Color(0xFFFA4A0C);
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(50.0),
+      child: Column(
+        children: <Widget>[
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: 'E-mail',
+              labelStyle: TextStyle(color: Colors.grey),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
               ),
-              validator: (String value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor preencha seu e-mail';
-                }
-                return null;
-              },
             ),
-            Divider(),
-            TextFormField(
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Senha',
+            validator: (String value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor preencha seu e-mail';
+              }
+              return null;
+            },
+          ),
+          const Divider(color: Colors.transparent),
+          TextFormField(
+            obscureText: true,
+            decoration: const InputDecoration(
+              labelText: 'Senha',
+              labelStyle: TextStyle(color: Colors.grey),
+              enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey)),
+            ),
+            validator: (String value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor preencha a senha';
+              }
+              return null;
+            },
+          ),
+          const Divider(
+            height: 35,
+            color: Colors.transparent,
+          ),
+          const Text('Recuperar Senha',
+              style: TextStyle(
+                  color: primaryColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold),
+              textAlign: TextAlign.left),
+          const Divider(
+            height: 30,
+            color: Colors.transparent,
+          ),
+          ElevatedButton(
+            child: const Text('Logar',
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold)),
+            style: ElevatedButton.styleFrom(
+              primary: primaryColor,
+              padding: const EdgeInsets.fromLTRB(130, 20, 130, 20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-              validator: (String value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor preencha a senha';
-                }
-                return null;
-              },
             ),
-            Divider(),
-            RaisedButton(
-              child: Text('Logar'),
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              },
-            ),
-          ],
-        ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/home');
+            },
+          ),
+        ],
       ),
     );
   }
@@ -65,7 +92,7 @@ class _HomePageState extends State<HomePage> {
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             Text(
               "Cadastro",
               style: TextStyle(fontSize: 20),
@@ -86,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           child: Image.asset(
             'assets/logo.png',
             //fit: BoxFit.scaleDown,
-            height: 200,
+            height: 180,
             alignment: Alignment.center,
           ),
         ),
@@ -99,19 +126,20 @@ class _HomePageState extends State<HomePage> {
             child: Container(
           child: Center(
               child: Text(text,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 16))),
         )),
       ]),
     );
   }
 
-  Widget _buildTextRow() => Expanded(
+  Widget _buildTextRow(Color primaryColor) => Expanded(
         flex: 7,
         child: DefaultTabController(
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(30),
                 ),
@@ -119,15 +147,15 @@ class _HomePageState extends State<HomePage> {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
               flexibleSpace: Container(
-                margin: EdgeInsets.only(top: 10),
+                margin: const EdgeInsets.only(top: 10),
                 child: TabBar(
                   labelColor: Colors.black,
                   unselectedLabelColor: Colors.grey,
-                  padding: EdgeInsets.only(top: 22, right: 50, left: 50),
+                  padding: const EdgeInsets.only(top: 22, right: 50, left: 50),
                   indicator: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.red,
+                        color: primaryColor,
                         width: 3,
                       ),
                     ),
@@ -152,11 +180,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     const color = Colors.white;
-    return Scaffold(
-      bottomSheet: Container(
+    const primaryColor = Color(0xFFFA4A0C);
+    return //Scaffold(
+        /*bottomSheet: Container(
         height: 50,
         color: Colors.white,
-        child: Row(
+         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
@@ -164,7 +193,7 @@ class _HomePageState extends State<HomePage> {
               width: 50,
               child: Icon(
                 Icons.home,
-                color: Colors.red,
+                color: primaryColor,
               ),
             ),
             Container(
@@ -172,7 +201,7 @@ class _HomePageState extends State<HomePage> {
               width: 50,
               child: Icon(
                 Icons.search,
-                color: Colors.red,
+                color: primaryColor,
               ),
             ),
             Container(
@@ -180,7 +209,7 @@ class _HomePageState extends State<HomePage> {
               width: 50,
               child: Icon(
                 Icons.shopping_cart,
-                color: Colors.red,
+                color: primaryColor,
               ),
             ),
             Container(
@@ -188,29 +217,27 @@ class _HomePageState extends State<HomePage> {
               width: 50,
               child: Icon(
                 Icons.person,
-                color: Colors.red,
+                color: primaryColor,
               ),
             ),
           ],
-        ),
-      ),
-      body: Container(
-          padding: EdgeInsets.only(top: 50),
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30.0),
-                bottomRight: Radius.circular(30.0)),
-          ),
-          child: Column(
-            children: [
-              _buildImageRow(),
-              _buildTextRow(),
-            ],
-          )),
-      backgroundColor: Colors.grey[200],
-    );
+        ), 
+      ),*/
+        Container(
+            padding: const EdgeInsets.only(top: 50),
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: const BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30.0),
+                  bottomRight: Radius.circular(30.0)),
+            ),
+            child: Column(
+              children: [
+                _buildImageRow(),
+                _buildTextRow(primaryColor),
+              ],
+            ));
   }
 }
