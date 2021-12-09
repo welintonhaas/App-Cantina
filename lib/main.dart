@@ -1,4 +1,7 @@
 import 'package:app_cantina/ui/home_page.dart';
+import 'package:app_cantina/ui/produtos_page.dart';
+import 'package:app_cantina/ui/produtos_list.dart';
+import 'package:app_cantina/ui/cadastrar.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,6 +23,12 @@ void main() {
         bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
       ),
     ),
-    home: HomePage(),
+    routes: {
+      '/': (context) => HomePage(),
+      '/cadastrar': (context) => CadastroPage(),
+      // '/login': (context) => LoginPage(),
+      '/produtos': (context) => ProdutosPage(),
+      '/produtos_list': (context) => ProdutosList(),
+    },
   ));
 }
