@@ -91,8 +91,9 @@ class ClienteHelper {
 
   Future<int> getTotal() async {
     Database dbCliente = await db;
-    return Sqflite.firstIntValue(
-        await dbCliente.rawQuery("SELECT COUNT(*) FROM $tabelaCliente"));
+    List listaMap =
+        await dbCliente.rawQuery("SELECT COUNT(*) FROM $tabelaCliente");
+    return listaMap[0]["COUNT(*)"];
   }
 
   Future close() async {

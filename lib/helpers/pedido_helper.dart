@@ -87,8 +87,9 @@ class PedidoHelper {
 
   Future<int> getTotal() async {
     Database dbPedido = await db;
-    return Sqflite.firstIntValue(
-        await dbPedido.rawQuery("SELECT COUNT(*) FROM $tabelaPedido"));
+    List listaMap =
+        await dbPedido.rawQuery("SELECT COUNT(*) FROM $tabelaPedido");
+    return listaMap[0]["COUNT(*)"];
   }
 
   Future close() async {

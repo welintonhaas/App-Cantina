@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:path/path.dart';
 
 // Variáveis
-final String idProduto = "id";
-final String nome = "nome";
-final String valor = "valor";
-final String quantidade = "qtd";
-final String fornecedor = "fornecedor";
-final String categoria = "categoria";
-final String tabelaProduto = "tabelaProduto";
+const String idProduto = "id";
+const String nome = "nome";
+const String valor = "valor";
+const String quantidade = "qtd";
+const String fornecedor = "fornecedor";
+const String categoria = "categoria";
+const String foto = "foto";
+const String tabelaProduto = "tabelaProduto";
 
 class ProdutoHelper {
   static final ProdutoHelper _instance = ProdutoHelper.internal();
@@ -30,29 +31,36 @@ class ProdutoHelper {
   }
 
   Future<Database> initDb() async {
-    final databasesPath = await getDatabasesPath();
-
-    final path = join(databasesPath, "Produto.db");
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'Produto.db');
 
     return openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $tabelaProduto(id INTEGER PRIMARY KEY, nome TEXT, valor DOUBLE, qtd TEXT, fornecedor TEXT, categoria TEXT)");
+          "CREATE TABLE $tabelaProduto($idProduto INTEGER PRIMARY KEY, $nome TEXT, $valor TEXT, $quantidade TEXT, $fornecedor TEXT, $categoria TEXT, $foto TEXT)");
     });
   }
 
-  Future<Produto> salvarProduto(Produto cliente) async {
-    Database dbcliente = await db;
+  Future<Produto> salvarProduto(Produto produto) async {
+    Database dbproduto = await db;
 
-    cliente.id = await dbcliente.insert(tabelaProduto, cliente.toMap());
-    return cliente;
+    produto.id = await dbproduto.insert(tabelaProduto, produto.toMap());
+    return produto;
   }
 
   Future<Produto> buscarProduto(int id) async {
     Database dbProduto = await db;
 
     List<Map> maps = await dbProduto.query(tabelaProduto,
-        columns: [idProduto, nome, valor, quantidade, fornecedor, categoria],
+        columns: [
+          idProduto,
+          nome,
+          valor,
+          quantidade,
+          fornecedor,
+          categoria,
+          foto
+        ],
         where: "$id = ?",
         whereArgs: [id]);
 
@@ -89,8 +97,9 @@ class ProdutoHelper {
 
   Future<int> getTotal() async {
     Database dbProduto = await db;
-    return Sqflite.firstIntValue(
-        await dbProduto.rawQuery("SELECT COUNT(*) FROM $tabelaProduto"));
+    List listaMap =
+        await dbProduto.rawQuery("SELECT COUNT(*) FROM $tabelaProduto");
+    return listaMap[0]["COUNT(*)"];
   }
 
   Future close() async {
@@ -106,6 +115,7 @@ class Produto {
   String quantidade = "";
   String fornecedor = "";
   String categoria = "";
+  String foto = "";
 
   Produto();
 
@@ -116,6 +126,7 @@ class Produto {
     quantidade = map[quantidade];
     fornecedor = map[fornecedor];
     categoria = map[categoria];
+    foto = map[foto];
   }
 
   Map<String, dynamic> toMap() {
@@ -125,6 +136,7 @@ class Produto {
       quantidade: quantidade,
       fornecedor: fornecedor,
       categoria: categoria,
+      foto: foto,
     };
 
     if (id != null) {
@@ -136,6 +148,6 @@ class Produto {
 
   @override
   String toString() {
-    return "Cliente (id: $id, valor: $valor, quantidade: $quantidade, fornecedor: $fornecedor, categoria: $categoria";
+    return "Produto (id: $id, valor: $valor, quantidade: $quantidade, fornecedor: $fornecedor, categoria: $categoria, foto: $foto";
   }
 }
