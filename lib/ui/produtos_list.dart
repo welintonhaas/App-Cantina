@@ -3,7 +3,7 @@ import 'package:app_cantina/ui/produtos_page.dart';
 import 'package:app_cantina/helpers/produto_helper.dart';
 
 class ProdutosList extends StatefulWidget {
-  const ProdutosList({Key? key}) : super(key: key);
+  const ProdutosList({Key key}) : super(key: key);
 
   @override
   ProdutosListState createState() => ProdutosListState();
@@ -18,24 +18,28 @@ class ProdutosListState extends State<ProdutosList> {
   void initState() {
     super.initState();
 
-    Produto produto = Produto();
-    produto.id = 1;
-    produto.nome = "Coca-Cola";
-    produto.valor = "3.00";
-    produto.quantidade = "10";
-    produto.fornecedor = "Coca-Cola";
-    produto.categoria = "Refrigerante";
-    produto.foto =
-        "https://freepngimg.com/thumb/coke/1-2-coca-cola-png-clipart.png";
+    // helperProduto.dropTable();
+    // helperProduto.createTable();
 
-    helperProduto.salvarProduto(produto);
+    void _addProdutos() async {
+      await helperProduto.salvarProduto(Produto(
+          1,
+          "Coca Cola",
+          "3.00",
+          "10",
+          "Coca Cola",
+          "Refrigerante",
+          "https://io2.convertiez.com.br/m/superpaguemenos/shop/products/images/14079/medium/refrigerante-coca-cola-15l_18383.png"));
+    }
 
-    //helperProduto.todosOsProdutos().then((lista) {
-    //setState(() {
-    //produtos = lista;
-    //});
-    //print(lista);
-    //});
+    _addProdutos();
+
+    helperProduto.todosOsProdutos().then((lista) {
+      setState(() {
+        produtos = lista;
+      });
+      print(lista);
+    });
   }
 
   @override

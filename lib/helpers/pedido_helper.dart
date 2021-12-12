@@ -16,7 +16,7 @@ class PedidoHelper {
 
   PedidoHelper.internal();
 
-  late Database _db;
+  Database _db;
 
   Future<Database> get db async {
     if (_db != null) {

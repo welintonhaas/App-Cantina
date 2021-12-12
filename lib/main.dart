@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:app_cantina/ui/home_page.dart';
 import 'package:app_cantina/ui/produtos_page.dart';
 import 'package:app_cantina/ui/produtos_list.dart';

@@ -19,7 +19,7 @@ class ClienteHelper {
 
   factory ClienteHelper() => _instance;
 
-  late Database _db;
+  Database _db;
 
   Future<Database> get db async {
     if (_db != null) {

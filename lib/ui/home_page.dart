@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _sendForm() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState.validate()) {
       Navigator.pushNamed(context, '/produtos_list');
     }
   }
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _sendFormCad() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState.validate()) {
       Navigator.pushNamed(context, '/cadatrar');
     }
   }
