@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_cantina/ui/produtos_page.dart';
-import 'package:app_cantina/helpers/produto_helper.dart';
+import 'package:app_cantina/helpers/helper_produto.dart';
 
 class ProdutosList extends StatefulWidget {
   const ProdutosList({Key key}) : super(key: key);
@@ -10,144 +10,214 @@ class ProdutosList extends StatefulWidget {
 }
 
 class ProdutosListState extends State<ProdutosList> {
-  ProdutoHelper helperProduto = ProdutoHelper();
+  ProdutoConnect connectProduto = ProdutoConnect();
 
   List<Produto> produtos = [];
+  List<Produto> produtosfilter = [];
+
+  void _addNewProduct() async {
+    Produto produto = Produto();
+    produto.id = null;
+    produto.nome = "Coca Cola";
+    produto.preco = "3,00";
+    produto.categoria = "Refrigerante";
+    produto.img =
+        "https://admin.cmpedidos.com.br/foto/655/produtos/coca-cola-lata-350-ml-105868.jpg";
+
+    produto = await connectProduto.save(produto);
+  }
 
   @override
   void initState() {
     super.initState();
 
-    // helperProduto.dropTable();
-    // helperProduto.createTable();
+    //connectProduto.dropTable();
+    //connectProduto.createTable();
 
-    void _addProdutos() async {
-      await helperProduto.salvarProduto(Produto(
-          1,
-          "Coca Cola",
-          "3.00",
-          "10",
-          "Coca Cola",
-          "Refrigerante",
-          "https://io2.convertiez.com.br/m/superpaguemenos/shop/products/images/14079/medium/refrigerante-coca-cola-15l_18383.png"));
-    }
+    //_addNewProduct();
 
-    _addProdutos();
-
-    helperProduto.todosOsProdutos().then((lista) {
+    connectProduto.getAllProdutos().then((lista) {
       setState(() {
         produtos = lista;
+        produtosfilter = lista;
       });
-      print(lista);
+      //print(lista);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var primaryColor = Theme.of(context).primaryColor;
     GlobalKey<FormState> _formKey = new GlobalKey();
     return Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              DrawerHeader(
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: const Text(
-                        'App Cantina',
-                        style: TextStyle(fontSize: 22.0, color: Colors.white),
-                      ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: const Text(
+                      'App Cantina',
+                      style: TextStyle(fontSize: 22.0, color: Colors.white),
                     ),
-                  ],
-                ),
-                decoration: const BoxDecoration(
-                  color: Color(0xFFFA4A0C),
+                  ),
+                ],
+              ),
+              decoration: const BoxDecoration(
+                color: Color(0xFFFA4A0C),
+              ),
+            ),
+            ListTile(
+              title: Text('Cadastrar Produto'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ProdutosPage()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFEFEFEF),
+        leading: Builder(
+          builder: (context) => IconButton(
+              icon: Icon(Icons.menu),
+              iconSize: 30.0,
+              color: Colors.black,
+              onPressed: () => {
+                    if (Scaffold.of(context).isDrawerOpen)
+                      {Scaffold.of(context).openEndDrawer()}
+                    else
+                      {Scaffold.of(context).openDrawer()}
+                  }),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.shopping_cart),
+            iconSize: 30.0,
+            color: Colors.black,
+            onPressed: () => {},
+          ),
+        ],
+        elevation: 0.0,
+      ),
+      body: Container(
+        child: Column(
+          children: <Widget>[
+            const Padding(
+              padding: EdgeInsets.fromLTRB(0, 20.0, 60, 30),
+              child: Text(
+                'Lanches\nDeliciosos para Você',
+                style: TextStyle(
+                    fontSize: 30.0,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            Form(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: TextFormField(
+                  onChanged: (text) {
+                    setState(() {
+                      produtosfilter = produtos
+                          .where((element) => element.nome
+                              .toLowerCase()
+                              .contains(text.toLowerCase()))
+                          .toList();
+                    });
+                  },
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.grey[250],
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    labelText: 'Procurar',
+                    labelStyle: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w700),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: primaryColor),
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey[300],
+                      ),
+                      borderRadius: BorderRadius.circular(50.0),
+                    ),
+                  ),
                 ),
               ),
-              ListTile(
-                title: Text('Cadastrar Produto'),
-                onTap: () {
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
+                child: ListView.builder(
+                  itemCount: produtosfilter.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _produtosCard(context, index);
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      bottomSheet: Container(
+        height: 50,
+        color: const Color(0xFFEFEFEF),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 50,
+              width: 50,
+              child: IconButton(
+                icon: new Icon(Icons.home),
+                color: primaryColor,
+                onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ProdutosPage()),
+                    MaterialPageRoute(builder: (context) => ProdutosList()),
                   );
                 },
               ),
-            ],
-          ),
-        ),
-        appBar: AppBar(
-          titleSpacing: 0.0,
-          leading: Builder(
-            builder: (context) => IconButton(
-                icon: Icon(Icons.menu),
-                iconSize: 30.0,
-                color: Colors.black,
-                onPressed: () => {
-                      //Scaffold.of(context).openDrawer(),
-                      if (Scaffold.of(context).isDrawerOpen)
-                        {Scaffold.of(context).openEndDrawer()}
-                      else
-                        {Scaffold.of(context).openDrawer()}
-                    }),
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.shopping_cart),
-              iconSize: 30.0,
-              color: Colors.black,
-              onPressed: () => {},
+            ),
+            Container(
+              height: 50,
+              width: 50,
+              child: Icon(
+                Icons.search,
+                color: primaryColor,
+              ),
+            ),
+            Container(
+              height: 50,
+              width: 50,
+              child: Icon(
+                Icons.shopping_cart,
+                color: primaryColor,
+              ),
+            ),
+            Container(
+              height: 50,
+              width: 50,
+              child: Icon(
+                Icons.person,
+                color: primaryColor,
+              ),
             ),
           ],
-          elevation: 0.0,
-          backgroundColor: Color(0xffffffff),
         ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              const Padding(
-                padding: EdgeInsets.all(30.0),
-                child: Text(
-                  'Lanches \nDeliciosos para Você',
-                  style: TextStyle(
-                      fontSize: 30.0,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-              Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(40, 0, 30, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      labelText: 'Procurar',
-                      labelStyle: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 20.0,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-                  child: ListView.builder(
-                    itemCount: produtos.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _produtosCard(context, index);
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 
   Widget _produtosCard(BuildContext context, int index) {
@@ -161,50 +231,69 @@ class ProdutosListState extends State<ProdutosList> {
                   )),
         );
       },
-      child: Card(
-        elevation: 5.0,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
+      child: Container(
+        width: 20,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          child: Column(
-            children: <Widget>[
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    topRight: Radius.circular(20.0),
-                  ),
-                  image: DecorationImage(
-                    image: NetworkImage(produtos[index].foto),
-                    fit: BoxFit.cover,
+          elevation: 0,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(75),
+                      topRight: Radius.circular(75),
+                      bottomLeft: Radius.circular(75),
+                      bottomRight: Radius.circular(75),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(produtosfilter[index].img),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      produtos[index].nome,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'R\$ ${produtos[index].valor}',
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              produtosfilter[index].nome,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(padding: EdgeInsets.all(10.0)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'R\$ ' + produtosfilter[index].preco,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFFFA4A0C),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    )),
+              ],
+            ),
           ),
         ),
       ),

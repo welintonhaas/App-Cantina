@@ -285,51 +285,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     const color = Colors.white;
     const primaryColor = Color(0xFFFA4A0C);
-    return
-
-        // Scaffold(
-        //     bottomSheet: Container(
-        //       height: 50,
-        //       color: Colors.white,
-        //       child: Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //         children: [
-        //           Container(
-        //             height: 50,
-        //             width: 50,
-        //             child: Icon(
-        //               Icons.home,
-        //               color: primaryColor,
-        //             ),
-        //           ),
-        //           Container(
-        //             height: 50,
-        //             width: 50,
-        //             child: Icon(
-        //               Icons.search,
-        //               color: primaryColor,
-        //             ),
-        //           ),
-        //           Container(
-        //             height: 50,
-        //             width: 50,
-        //             child: Icon(
-        //               Icons.shopping_cart,
-        //               color: primaryColor,
-        //             ),
-        //           ),
-        //           Container(
-        //             height: 50,
-        //             width: 50,
-        //             child: Icon(
-        //               Icons.person,
-        //               color: primaryColor,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        Container(
+    return Container(
       padding: const EdgeInsets.only(top: 50),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,

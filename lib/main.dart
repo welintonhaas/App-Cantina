@@ -11,7 +11,8 @@ void main() {
     theme: ThemeData(
       // Define the default brightness and colors.
       brightness: Brightness.light,
-      primaryColor: Colors.red,
+      primaryColor: Color(0xFFFA4A0C),
+      scaffoldBackgroundColor: const Color(0xFFEFEFEF),
 
       // Define the default font family.
       fontFamily: 'Roboto',
