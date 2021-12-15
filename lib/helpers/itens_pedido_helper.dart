@@ -4,10 +4,10 @@ import 'package:path/path.dart';
 
 // Variáveis
 const String idItemPedido = "id";
-const String pedidoId = "pedidoId";
-const String produtoId = "produtoId";
-const String quantidade = "quantidade";
-const String valorTotalItem = "valorTotalItem";
+const String pedidoIdItemPedido = "pedidoId";
+const String produtoIdItemPedido = "produtoId";
+const String quantidadeItemPedido = "quantidade";
+const String valorTotalItemItemPedido = "valorTotalItem";
 const String tabelaItemPedido = "ItemPedido";
 
 class ItemPedidoHelper {
@@ -36,11 +36,11 @@ class ItemPedidoHelper {
     return openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $tabelaItemPedido(id INTEGER PRIMARY KEY, nome TEXT, whatsapp TEXT, curso TEXT, fase TEXT, email TEXT)");
+          "CREATE TABLE $tabelaItemPedido($idItemPedido INTEGER PRIMARY KEY,  $pedidoIdItemPedido INTEGER, $produtoIdItemPedido INTEGER, $quantidadeItemPedido INTEGER, $valorTotalItemItemPedido DOUBLE)");
     });
   }
 
-  Future<ItemPedido> salvarItemPedido(ItemPedido ItemPedido) async {
+  Future<ItemPedido> save(ItemPedido ItemPedido) async {
     Database dbItemPedido = await db;
 
     ItemPedido.id =
@@ -54,10 +54,10 @@ class ItemPedidoHelper {
     List<Map> maps = await dbItemPedido.query(tabelaItemPedido,
         columns: [
           idItemPedido,
-          pedidoId,
-          produtoId,
-          quantidade,
-          valorTotalItem
+          pedidoIdItemPedido,
+          produtoIdItemPedido,
+          quantidadeItemPedido,
+          valorTotalItemItemPedido
         ],
         where: "$idItemPedido = ?",
         whereArgs: [id]);
@@ -86,12 +86,12 @@ class ItemPedidoHelper {
     List listaMap = await dbItemPedido.query(tabelaItemPedido,
         columns: [
           idItemPedido,
-          pedidoId,
-          produtoId,
-          quantidade,
-          valorTotalItem
+          pedidoIdItemPedido,
+          produtoIdItemPedido,
+          quantidadeItemPedido,
+          valorTotalItemItemPedido
         ],
-        where: "$pedidoId = ?",
+        where: "$pedidoIdItemPedido = ?",
         whereArgs: [id]);
     List<ItemPedido> listaItemPedido = [];
 
@@ -117,27 +117,27 @@ class ItemPedidoHelper {
 
 class ItemPedido {
   int id = 0;
-  String pedidoId = "";
-  String produtoId = "";
-  String quantidade = "";
-  String valorTotalItem = "";
+  int pedidoId = 0;
+  int produtoId = 0;
+  int quantidade = 0;
+  double valorTotalItem = 0.0;
 
   ItemPedido();
 
   ItemPedido.fromMap(Map map) {
     id = map[id];
-    pedidoId = map[pedidoId];
-    produtoId = map[produtoId];
-    quantidade = map[quantidade];
-    valorTotalItem = map[valorTotalItem];
+    pedidoId = map[pedidoIdItemPedido];
+    produtoId = map[produtoIdItemPedido];
+    quantidade = map[quantidadeItemPedido];
+    valorTotalItem = map[valorTotalItemItemPedido];
   }
 
-  Map<String, dynamic> toMap() {
-    Map<String, dynamic> map = {
-      pedidoId: pedidoId,
-      produtoId: produtoId,
-      quantidade: quantidade,
-      valorTotalItem: valorTotalItem,
+  Map toMap() {
+    Map<dynamic, dynamic> map = {
+      pedidoIdItemPedido: pedidoId,
+      produtoIdItemPedido: produtoId,
+      quantidadeItemPedido: quantidade,
+      valorTotalItemItemPedido: valorTotalItem,
     };
 
     if (id != null) {

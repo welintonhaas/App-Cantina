@@ -4,9 +4,9 @@ import 'package:path/path.dart';
 
 // Variáveis
 final String idPedido = "id";
-final String horaEntrada = "horaEntrada";
-final String horaSaida = "horaSaida";
-final String status = "status";
+final String horaEntradaPedido = "horaEntrada";
+final String horaSaidaPedido = "horaSaida";
+final String statusPedido = "status";
 final String tabelaPedido = "tabelaPedido";
 
 class PedidoHelper {
@@ -35,7 +35,7 @@ class PedidoHelper {
     return openDatabase(path, version: 1,
         onCreate: (Database db, int newerVersion) async {
       await db.execute(
-          "CREATE TABLE $tabelaPedido(id INTEGER PRIMARY KEY, $horaEntrada TEXT, $horaSaida TEXT, $status TEXT)");
+          "CREATE TABLE $tabelaPedido($idPedido INTEGER PRIMARY KEY, $horaEntradaPedido TEXT, $horaSaidaPedido TEXT, $statusPedido TEXT)");
     });
   }
 
@@ -50,7 +50,7 @@ class PedidoHelper {
     Database dbPedido = await db;
 
     List<Map> maps = await dbPedido.query(tabelaPedido,
-        columns: [idPedido, horaEntrada, horaSaida, status],
+        columns: [idPedido, horaEntradaPedido, horaSaidaPedido, statusPedido],
         where: "$id = ?",
         whereArgs: [id]);
 
@@ -100,24 +100,24 @@ class PedidoHelper {
 
 class Pedido {
   int id = 0;
-  String horaEntrada = '';
-  String horaSaida = '';
-  String status = '';
+  String horaEntrada = "";
+  String horaSaida = "";
+  String status = "";
 
   Pedido();
 
   Pedido.fromMap(Map map) {
-    id = map[id];
-    horaEntrada = map[horaEntrada];
-    horaSaida = map[horaSaida];
-    status = map[status];
+    id = map[idPedido];
+    horaEntrada = map[horaEntradaPedido];
+    horaSaida = map[horaSaidaPedido];
+    status = map[statusPedido];
   }
 
-  Map<String, dynamic> toMap() {
+  Map toMap() {
     Map<String, dynamic> map = {
-      horaEntrada: horaEntrada,
-      horaSaida: horaSaida,
-      status: status,
+      horaEntradaPedido: horaEntrada,
+      horaSaidaPedido: horaSaida,
+      statusPedido: status,
     };
 
     if (id != null) {

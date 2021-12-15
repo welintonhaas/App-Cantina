@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'package:app_cantina/ui/home_page.dart';
+import 'package:app_cantina/ui/pedido.dart';
 import 'package:app_cantina/ui/produtos_page.dart';
 import 'package:app_cantina/ui/produtos_list.dart';
 import 'package:app_cantina/ui/cadastrar.dart';
@@ -28,7 +29,7 @@ void main() {
     routes: {
       '/': (context) => HomePage(),
       '/cadastrar': (context) => CadastroPage(),
-      // '/login': (context) => LoginPage(),
+      '/pedido': (context) => PedidoPage(),
       '/produtos': (context) => ProdutosPage(),
       '/produtos_list': (context) => ProdutosList(),
     },
