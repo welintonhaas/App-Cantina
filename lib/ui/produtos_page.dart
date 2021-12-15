@@ -37,7 +37,7 @@ class _ProdutosPageState extends State<ProdutosPage> {
           Navigator.pushNamed(
             context,
             PedidoPage.pedidoPage,
-            arguments: produto.id,
+            arguments: produto,
           );
         },
       ),

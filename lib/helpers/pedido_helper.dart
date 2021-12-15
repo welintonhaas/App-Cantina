@@ -73,6 +73,16 @@ class PedidoHelper {
         where: "$idPedido = ?", whereArgs: [pedido.id]);
   }
 
+  Future<List> getAll() async {
+    Database dbPedido = await db;
+    List listMap = await dbPedido.rawQuery("SELECT * FROM $tabelaPedido");
+    List<Pedido> listPedido = [];
+    for (Map m in listMap) {
+      listPedido.add(Pedido.fromMap(m));
+    }
+    return listPedido;
+  }
+
   Future<List> todosOsClientes() async {
     Database dbCliente = await db;
     List listaMap = await dbCliente.rawQuery("SELECT * FROM $tabelaPedido");

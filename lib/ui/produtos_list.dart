@@ -245,7 +245,7 @@ class ProdutosListState extends State<ProdutosList> {
       },
       child: SizedBox(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 90, 10, 140),
+          padding: const EdgeInsets.fromLTRB(10, 90, 10, 0),
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
@@ -261,7 +261,7 @@ class ProdutosListState extends State<ProdutosList> {
                 children: <Widget>[
                   Container(
                     height: 150,
-                    width: 150,
+                    width: 140,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(75),
