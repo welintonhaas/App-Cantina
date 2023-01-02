@@ -8,6 +8,6 @@ Design Desenvolvido no Figma :
 
 Screenshot App Desenvolvido:
 
-![Screenshot](print-1.png)
-![Screenshot](print-2.png)
-![Screenshot](print-3.png)
+![Screenshot](print-1.jpg)
+![Screenshot](print-2.jpg)
+![Screenshot](print-3.jpg)
