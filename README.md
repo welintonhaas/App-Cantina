@@ -8,6 +8,7 @@ Design Desenvolvido no Figma :
 
 Screenshot App Desenvolvido:
 
-![Screenshot](print-1.jpg =x250)
-![Screenshot](print-2.jpg =x250)
-![Screenshot](print-3.jpg =x250)
+[<img src="print-1.jpg" width="250"/>](print-1.jpg)
+[<img src="print-2.jpg" width="250"/>](print-2.jpg)
+[<img src="print-3.jpg" width="250"/>](print-3.jpg)
+
